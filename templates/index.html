@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Budget Tracker</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body class="container py-5">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="m-0">💰 Budget Tracker</h2>
+    <div>
+      <a href="/add_income" class="btn btn-success me-2">+ Add Income</a>
+      <a href="/add" class="btn btn-primary">+ Add Expense</a>
+    </div>
+  </div>
+
+  <div class="alert alert-info">
+    <strong>Total Income:</strong> ₹{{ "%.2f"|format(total_income) }} <br>
+    <strong>Total Expenses:</strong> ₹{{ "%.2f"|format(total_expense) }} <br>
+    <strong>Balance:</strong>
+    <span style="color: {{ 'red' if balance < 0 else 'green' }};">
+      ₹{{ "%.2f"|format(balance) }}
+    </span>
+  </div>
+
+  <h4>Expense List</h4>
+  <table class="table table-striped table-bordered align-middle">
+    <thead class="table-light">
+      <tr>
+        <th>Date</th>
+        <th>Category</th>
+        <th>Amount (₹)</th>
+        <th>Note</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for exp in expenses %}
+      <tr>
+        <td>{{ exp.date.strftime("%Y-%m-%d") }}</td>
+        <td>{{ exp.category }}</td>
+        <td>{{ "%.2f"|format(exp.amount) }}</td>
+        <td>{{ exp.note }}</td>
+      </tr>
+      {% endfor %}
+      {% if expenses|length == 0 %}
+      <tr><td colspan="4" class="text-center text-muted">No expenses yet. Add your first one!</td></tr>
+      {% endif %}
+    </tbody>
+  </table>
+</body>
+</html>
